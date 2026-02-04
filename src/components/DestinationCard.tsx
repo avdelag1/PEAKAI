@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import { MapPin, Star, ArrowRight } from "lucide-react";
 
 interface DestinationCardProps {
   name: string;
+  slug?: string;
   country: string;
   image: string;
   rating: number;
@@ -9,9 +11,14 @@ interface DestinationCardProps {
   featured?: boolean;
 }
 
-const DestinationCard = ({ name, country, image, rating, venues, featured }: DestinationCardProps) => {
+const DestinationCard = ({ name, slug, country, image, rating, venues, featured }: DestinationCardProps) => {
+  const destinationSlug = slug || name.toLowerCase().replace(/\s+/g, '-');
+  
   return (
-    <div className={`group relative rounded-2xl overflow-hidden hover-lift cursor-pointer ${featured ? 'col-span-2 row-span-2' : ''}`}>
+    <Link 
+      to={`/destination/${destinationSlug}`}
+      className={`group relative rounded-2xl overflow-hidden hover-lift block ${featured ? 'col-span-2 row-span-2' : ''}`}
+    >
       {/* Image */}
       <div className="aspect-[4/5] w-full">
         <img
@@ -64,7 +71,7 @@ const DestinationCard = ({ name, country, image, rating, venues, featured }: Des
 
       {/* Border glow on hover */}
       <div className="absolute inset-0 rounded-2xl border border-gold/0 group-hover:border-gold/30 transition-colors duration-300 pointer-events-none" />
-    </div>
+    </Link>
   );
 };
 
