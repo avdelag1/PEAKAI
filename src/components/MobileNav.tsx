@@ -32,8 +32,8 @@ const MobileNav = () => {
       </SheetTrigger>
       <SheetContent side="right" className="w-[300px] bg-charcoal border-gold/20">
         <SheetHeader>
-          <SheetTitle className="text-gradient-gold font-serif text-2xl">
-            Mercur
+           <SheetTitle className="font-serif text-xl text-foreground">
+             THE TULUM EXPERT
           </SheetTitle>
         </SheetHeader>
         

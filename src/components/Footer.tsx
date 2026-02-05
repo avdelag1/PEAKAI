@@ -23,11 +23,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <span className="text-2xl font-serif font-bold text-gradient-gold mb-4 block">
-              Mercur
+             <span className="text-xl font-serif font-semibold tracking-wide text-foreground mb-4 block">
+               THE TULUM EXPERT
             </span>
             <p className="text-muted-foreground text-sm mb-6">
-              Your gateway to extraordinary experiences in the world's most prestigious destinations.
+               Your local guide to the best experiences in Tulum and the Riviera Maya.
             </p>
             <div className="flex items-center gap-4">
               <a href="#" className="w-10 h-10 rounded-full luxury-border flex items-center justify-center hover:border-gold/50 hover:text-gold transition-all duration-300">

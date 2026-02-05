@@ -19,11 +19,11 @@ const CTASection = () => {
           </div>
 
           {/* Content */}
-          <h2 className="text-4xl md:text-6xl font-serif font-bold text-foreground mb-6">
-            Join the <span className="text-gradient-gold">Elite</span> Circle
+           <h2 className="text-3xl md:text-5xl font-serif font-medium text-foreground mb-6">
+             Ready to Explore <span className="text-gold">Tulum</span>?
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            Unlock unlimited access to the world's most exclusive venues, personalized recommendations, and 24/7 concierge support.
+           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
+             Let us help you discover the best of Tulum — from hidden cenotes to beachfront dining and wellness retreats.
           </p>
 
           {/* CTAs */}
@@ -40,18 +40,18 @@ const CTASection = () => {
           {/* Trust indicators */}
           <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-muted-foreground">
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-gradient-gold">50k+</span>
-              <span className="text-sm">Active Members</span>
+               <span className="text-2xl font-bold text-gold">10k+</span>
+               <span className="text-sm">Happy Guests</span>
             </div>
             <div className="w-px h-8 bg-border hidden sm:block" />
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-gradient-gold">2,000+</span>
-              <span className="text-sm">Partner Venues</span>
+               <span className="text-2xl font-bold text-gold">200+</span>
+               <span className="text-sm">Local Venues</span>
             </div>
             <div className="w-px h-8 bg-border hidden sm:block" />
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-gradient-gold">150+</span>
-              <span className="text-sm">Cities Worldwide</span>
+               <span className="text-2xl font-bold text-gold">5★</span>
+               <span className="text-sm">Rated Experience</span>
             </div>
           </div>
         </div>
