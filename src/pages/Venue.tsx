@@ -1,5 +1,5 @@
-import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
+ import { useParams, Link } from "react-router-dom";
+ import { useState } from "react";
 import { 
   ArrowLeft, 
   Star, 
@@ -17,6 +17,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import VenueCard from "@/components/VenueCard";
 import ReservationModal from "@/components/ReservationModal";
+ import VenueGalleryModal from "@/components/VenueGalleryModal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getVenueBySlug, getVenuesByDestination } from "@/data/venues";
@@ -30,6 +31,7 @@ const Venue = () => {
   const { slug } = useParams<{ slug: string }>();
   const [currentImage, setCurrentImage] = useState(0);
   const [reservationOpen, setReservationOpen] = useState(false);
+   const [galleryOpen, setGalleryOpen] = useState(false);
   const { isFavorite, toggleFavorite } = useFavorites();
 
   const venue = getVenueBySlug(slug || "");
@@ -69,11 +71,12 @@ const Venue = () => {
       {/* Image Gallery */}
       <section className="pt-20">
         <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
-          <img
-            src={venue.images[currentImage]}
-            alt={venue.name}
-            className="h-full w-full object-cover"
-          />
+           <img
+             src={venue.images[currentImage]}
+             alt={venue.name}
+             className="h-full w-full object-cover cursor-pointer"
+             onClick={() => setGalleryOpen(true)}
+           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/30" />
           
           {/* Navigation Arrows */}
@@ -302,6 +305,14 @@ const Venue = () => {
         onOpenChange={setReservationOpen}
         venue={venue}
       />
+ 
+       <VenueGalleryModal
+         images={venue.images}
+         initialIndex={currentImage}
+         open={galleryOpen}
+         onOpenChange={setGalleryOpen}
+         venueName={venue.name}
+       />
 
       <Footer />
     </div>

@@ -7,36 +7,42 @@ const categories = [
     title: "Nightclubs",
     description: "Access to the world's most exclusive clubs with VIP tables and priority entry.",
     count: 500,
+     slug: "nightclub",
   },
   {
     icon: Utensils,
     title: "Fine Dining",
     description: "Michelin-starred restaurants and hidden culinary gems with reserved tables.",
     count: 850,
+     slug: "restaurant",
   },
   {
     icon: Wine,
     title: "Rooftop Bars",
     description: "Elevated experiences at the most stunning rooftop venues across the globe.",
     count: 320,
+     slug: "bar",
   },
   {
     icon: Sparkles,
     title: "Private Events",
     description: "Exclusive access to fashion shows, art exhibitions, and VIP parties.",
     count: 200,
+     slug: "experience",
   },
   {
     icon: Plane,
     title: "Yacht & Jets",
     description: "Luxury transportation and unforgettable experiences on water and in the sky.",
     count: 150,
+     slug: "yacht",
   },
   {
     icon: Gem,
     title: "Wellness & Spa",
     description: "World-renowned spas and wellness retreats for ultimate relaxation.",
     count: 280,
+     slug: "lounge",
   },
 ];
 
