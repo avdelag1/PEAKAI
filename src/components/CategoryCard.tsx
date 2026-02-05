@@ -1,15 +1,20 @@
-import { LucideIcon } from "lucide-react";
+ import { LucideIcon } from "lucide-react";
+ import { Link } from "react-router-dom";
 
-interface CategoryCardProps {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  count: number;
-}
-
-const CategoryCard = ({ icon: Icon, title, description, count }: CategoryCardProps) => {
+ interface CategoryCardProps {
+   icon: LucideIcon;
+   title: string;
+   description: string;
+   count: number;
+   slug: string;
+ }
+ 
+ const CategoryCard = ({ icon: Icon, title, description, count, slug }: CategoryCardProps) => {
   return (
-    <div className="group relative p-8 rounded-2xl bg-gradient-card luxury-border hover-lift cursor-pointer transition-all duration-500 hover:luxury-border-glow">
+     <Link 
+       to={`/category/${slug}`}
+       className="group relative block p-8 rounded-2xl bg-gradient-card luxury-border hover-lift cursor-pointer transition-all duration-500 hover:luxury-border-glow"
+     >
       {/* Icon */}
       <div className="w-16 h-16 rounded-xl bg-gold/10 flex items-center justify-center mb-6 group-hover:bg-gold/20 transition-colors duration-300">
         <Icon className="w-8 h-8 text-gold" />
@@ -29,9 +34,9 @@ const CategoryCard = ({ icon: Icon, title, description, count }: CategoryCardPro
         <span className="text-sm text-muted-foreground">venues worldwide</span>
       </div>
 
-      {/* Shimmer effect */}
-      <div className="absolute inset-0 rounded-2xl shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-    </div>
+       {/* Shimmer effect */}
+       <div className="absolute inset-0 rounded-2xl shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+     </Link>
   );
 };
 

@@ -1,4 +1,20 @@
-import { Instagram, Twitter, Linkedin, Mail } from "lucide-react";
+ import { Instagram, Twitter, Linkedin, Mail } from "lucide-react";
+ import { Link } from "react-router-dom";
+ 
+ const destinationLinks = [
+   { name: "Monaco", slug: "monaco" },
+   { name: "Dubai", slug: "dubai" },
+   { name: "Mykonos", slug: "mykonos" },
+   { name: "Ibiza", slug: "ibiza" },
+ ];
+ 
+ const experienceLinks = [
+   { name: "Nightclubs", slug: "nightclub" },
+   { name: "Fine Dining", slug: "restaurant" },
+   { name: "Rooftop Bars", slug: "bar" },
+   { name: "Beach Clubs", slug: "beach-club" },
+   { name: "Lounges", slug: "lounge" },
+ ];
 
 const Footer = () => {
   return (
@@ -27,35 +43,41 @@ const Footer = () => {
           </div>
 
           {/* Links */}
-          <div>
-            <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">
-              Destinations
-            </h4>
-            <ul className="space-y-3">
-              {["Monaco", "Dubai", "Mykonos", "Ibiza", "Miami", "Saint-Tropez"].map((city) => (
-                <li key={city}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-gold transition-colors duration-300">
-                    {city}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">
-              Experiences
-            </h4>
-            <ul className="space-y-3">
-              {["Nightclubs", "Fine Dining", "Rooftop Bars", "Private Events", "Yacht Charters", "Wellness"].map((exp) => (
-                <li key={exp}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-gold transition-colors duration-300">
-                    {exp}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+           <div>
+             <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">
+               Destinations
+             </h4>
+             <ul className="space-y-3">
+               {destinationLinks.map((dest) => (
+                 <li key={dest.slug}>
+                   <Link 
+                     to={`/destination/${dest.slug}`} 
+                     className="text-sm text-muted-foreground hover:text-gold transition-colors duration-300"
+                   >
+                     {dest.name}
+                   </Link>
+                 </li>
+               ))}
+             </ul>
+           </div>
+ 
+           <div>
+             <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">
+               Experiences
+             </h4>
+             <ul className="space-y-3">
+               {experienceLinks.map((exp) => (
+                 <li key={exp.slug}>
+                   <Link 
+                     to={`/category/${exp.slug}`} 
+                     className="text-sm text-muted-foreground hover:text-gold transition-colors duration-300"
+                   >
+                     {exp.name}
+                   </Link>
+                 </li>
+               ))}
+             </ul>
+           </div>
 
           <div>
             <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">
@@ -81,14 +103,14 @@ const Footer = () => {
           <p className="text-sm text-muted-foreground">
             © 2024 Mercur. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="text-sm text-muted-foreground hover:text-gold transition-colors duration-300">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-gold transition-colors duration-300">
-              Terms of Service
-            </a>
-          </div>
+           <div className="flex items-center gap-6">
+             <Link to="/contact" className="text-sm text-muted-foreground hover:text-gold transition-colors duration-300">
+               Privacy Policy
+             </Link>
+             <Link to="/contact" className="text-sm text-muted-foreground hover:text-gold transition-colors duration-300">
+               Terms of Service
+             </Link>
+           </div>
         </div>
       </div>
     </footer>

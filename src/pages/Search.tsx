@@ -1,6 +1,13 @@
-import { useState, useMemo } from "react";
+ import { useState, useMemo, useCallback } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Search, SlidersHorizontal, X, Star } from "lucide-react";
+ import { Search, SlidersHorizontal, X, Star, DollarSign, ArrowUpDown } from "lucide-react";
+ import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+ } from "@/components/ui/select";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import VenueCard from "@/components/VenueCard";
@@ -23,6 +30,8 @@ const SearchPage = () => {
   const categoryFilter = searchParams.get("category") as CategoryType | null;
   const minRating = Number(searchParams.get("rating")) || 0;
   const view = searchParams.get("view") || "venues";
+   const priceFilter = searchParams.get("price") ? searchParams.get("price")!.split(",").map(Number) : [];
+   const sortBy = searchParams.get("sort") || "rating";
 
   const updateSearch = (key: string, value: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -38,16 +47,52 @@ const SearchPage = () => {
     setSearchParams({ view });
   };
 
+   const updatePriceFilter = useCallback((level: number) => {
+     const newParams = new URLSearchParams(searchParams);
+     const current = priceFilter;
+     
+     if (current.includes(level)) {
+       const updated = current.filter(p => p !== level);
+       if (updated.length > 0) {
+         newParams.set("price", updated.join(","));
+       } else {
+         newParams.delete("price");
+       }
+     } else {
+       newParams.set("price", [...current, level].sort().join(","));
+     }
+     
+     setSearchParams(newParams);
+   }, [searchParams, priceFilter, setSearchParams]);
+ 
+   const sortVenues = useCallback((venues: typeof allVenues) => {
+     const sorted = [...venues];
+     switch (sortBy) {
+       case "rating":
+         return sorted.sort((a, b) => b.rating - a.rating);
+       case "price-low":
+         return sorted.sort((a, b) => a.priceLevel - b.priceLevel);
+       case "price-high":
+         return sorted.sort((a, b) => b.priceLevel - a.priceLevel);
+       case "name":
+         return sorted.sort((a, b) => a.name.localeCompare(b.name));
+       default:
+         return sorted;
+     }
+   }, [sortBy]);
+ 
   const results = useMemo(() => {
-    return filterVenues({
+     const filtered = filterVenues({
       query: query || undefined,
       destination: destinationFilter || undefined,
       category: categoryFilter || undefined,
       minRating: minRating || undefined,
+       priceLevel: priceFilter.length > 0 ? priceFilter : undefined,
     });
-  }, [query, destinationFilter, categoryFilter, minRating]);
+     return sortVenues(filtered);
+   }, [query, destinationFilter, categoryFilter, minRating, priceFilter, sortVenues]);
 
-  const hasActiveFilters = destinationFilter || categoryFilter || minRating;
+   const hasActiveFilters = destinationFilter || categoryFilter || minRating || priceFilter.length > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -169,7 +214,7 @@ const SearchPage = () => {
                   </div>
 
                   {/* Rating Filter */}
-                  <div>
+                   <div className="mb-6">
                     <h3 className="text-sm font-medium text-foreground mb-3">Minimum Rating</h3>
                     <div className="flex gap-2">
                       {[4, 4.5, 4.8].map((rating) => (
@@ -189,6 +234,27 @@ const SearchPage = () => {
                       ))}
                     </div>
                   </div>
+ 
+                   {/* Price Filter */}
+                   <div>
+                     <h3 className="text-sm font-medium text-foreground mb-3">Price Level</h3>
+                     <div className="flex flex-wrap gap-2">
+                       {[1, 2, 3, 4].map((level) => (
+                         <button
+                           key={level}
+                           onClick={() => updatePriceFilter(level)}
+                           className={cn(
+                             "flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-colors",
+                             priceFilter.includes(level) 
+                               ? "bg-gold text-background" 
+                               : "text-muted-foreground hover:bg-gold/10 hover:text-foreground"
+                           )}
+                         >
+                           {"$".repeat(level)}
+                         </button>
+                       ))}
+                     </div>
+                   </div>
                 </div>
               </aside>
 
@@ -250,14 +316,43 @@ const SearchPage = () => {
                         </button>
                       </Badge>
                     )}
+                     {priceFilter.length > 0 && (
+                       <Badge 
+                         variant="outline" 
+                         className="border-gold/30 text-foreground pr-1"
+                       >
+                         {"$".repeat(Math.min(...priceFilter))} - {"$".repeat(Math.max(...priceFilter))}
+                         <button
+                           onClick={() => updateSearch("price", "")}
+                           className="ml-2 hover:text-gold"
+                         >
+                           <X className="h-3 w-3" />
+                         </button>
+                       </Badge>
+                     )}
                   </div>
                 )}
 
-                {/* Results Count */}
-                <p className="text-muted-foreground mb-6">
+                 {/* Results Count and Sort */}
+                 <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                   <p className="text-muted-foreground">
                   {results.length} {results.length === 1 ? "venue" : "venues"} found
                   {query && ` for "${query}"`}
-                </p>
+                   </p>
+                   
+                   <Select value={sortBy} onValueChange={(value) => updateSearch("sort", value)}>
+                     <SelectTrigger className="w-[180px] bg-charcoal border-gold/20">
+                       <ArrowUpDown className="h-4 w-4 mr-2" />
+                       <SelectValue placeholder="Sort by" />
+                     </SelectTrigger>
+                     <SelectContent className="bg-charcoal border-gold/20">
+                       <SelectItem value="rating">Highest Rated</SelectItem>
+                       <SelectItem value="price-low">Price: Low to High</SelectItem>
+                       <SelectItem value="price-high">Price: High to Low</SelectItem>
+                       <SelectItem value="name">Name: A-Z</SelectItem>
+                     </SelectContent>
+                   </Select>
+                 </div>
 
                 {/* Results Grid */}
                 {results.length > 0 ? (
