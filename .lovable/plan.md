@@ -1,242 +1,190 @@
 
-# Mercur Concierge App - Complete Build Plan
+
+# Mercur Concierge App - Completion Plan (Phase 2)
 
 ## Overview
-Transform the current landing page into a fully functional luxury concierge application with search, browsing, venue details, user authentication, and booking capabilities.
+The core functionality is in place. This phase focuses on completing missing features, improving navigation connections, adding polish with loading states, and enhancing the user experience for a production-ready app.
 
 ---
 
-## Phase 1: Core Pages and Navigation
-
-### 1.1 Mobile Navigation Menu
-Add a slide-out mobile menu using the Sheet component for the hamburger menu button.
-
-### 1.2 Destination Detail Page
-Create `/destination/:slug` route showing:
-- Hero image with destination name and stats
-- Grid of venues in that destination
-- Filter by category (Nightclubs, Dining, Bars, etc.)
-- Map placeholder for future integration
-
-### 1.3 Venue Detail Page
-Create `/venue/:id` route showing:
-- Image gallery carousel
-- Venue name, rating, location, and description
-- Amenities and highlights
-- Opening hours and dress code
-- "Request Reservation" button
-- Similar venues section
-
-### 1.4 Search Results Page
-Create `/search` route with:
-- Search input at top
-- Filter sidebar (destination, category, rating, price range)
-- Results grid with venue cards
-- Sort options (rating, popularity, distance)
+## What's Already Built
+- All 10 pages (Index, Destination, Venue, Search, Category, Favorites, SignIn, SignUp, Profile, Contact)
+- Mobile navigation with Sheet component
+- 22 venues across 4 destinations with comprehensive mock data
+- Search with destination, category, and rating filters
+- Favorites system with localStorage persistence
+- Reservation modal with form validation
+- Testimonials section on homepage
+- VenueCard with favorites and pricing badges
 
 ---
 
-## Phase 2: Data Architecture
+## Remaining Work
 
-### 2.1 Data Types and Mock Data
-Create TypeScript types for:
-- `Destination` - name, slug, country, image, description, venueCount
-- `Venue` - id, name, destination, category, images, rating, description, amenities, hours, dressCode, priceLevel
-- `Category` - id, name, icon, description
+### 1. Fix Hero Section Search
+The hero search bar on the homepage doesn't navigate anywhere when users click "Explore".
 
-Create comprehensive mock data with 20+ venues across 4 destinations.
-
-### 2.2 Data Hooks
-Build custom hooks using React Query:
-- `useDestinations()` - fetch all destinations
-- `useDestination(slug)` - fetch single destination with venues
-- `useVenues(filters)` - search and filter venues
-- `useVenue(id)` - fetch single venue details
-- `useFeaturedVenues()` - homepage featured venues
+**Implementation:**
+- Connect the search input to navigate to `/search?q={query}`
+- Make popular search chips navigate to search with pre-filled query
+- Add form submission handling
 
 ---
 
-## Phase 3: Interactive Features
+### 2. Add Loading/Skeleton States
+Create luxury-themed skeleton loaders for a polished loading experience.
 
-### 3.1 Search Functionality
-- Real-time search with debouncing
-- Search across venue names, destinations, and categories
-- Popular searches auto-complete
-- Recent searches (localStorage)
+**Components to add:**
+- `VenueCardSkeleton` - Animated placeholder matching VenueCard layout
+- `DestinationCardSkeleton` - Placeholder for destination grid
+- Skeleton states for Venue detail page during data load
 
-### 3.2 Filter System
-Create reusable filter components:
-- Category filter (multi-select)
-- Price range slider
-- Rating filter
-- Destination filter
-- Reset all filters button
-
-### 3.3 Category Page
-Create `/category/:slug` route showing all venues of a specific category across all destinations.
+**Styling:**
+- Use `bg-gold/5` for skeleton background (matching luxury theme)
+- Subtle shimmer animation with gold gradient
 
 ---
 
-## Phase 4: User Experience Enhancements
+### 3. Enhanced Image Gallery
+Improve the venue page image gallery with professional features.
 
-### 4.1 Image Gallery Component
-Carousel with:
-- Full-screen modal view
-- Thumbnail navigation
-- Swipe gestures on mobile
-- Keyboard navigation
-
-### 4.2 Venue Cards
-Enhanced venue cards with:
-- Hover effects showing quick info
-- Favorite button (heart icon)
-- Quick view modal
-- Category and price badges
-
-### 4.3 Loading States
-Add skeleton loaders matching the luxury aesthetic for:
-- Destination cards
-- Venue cards
-- Detail pages
-
-### 4.4 Testimonials Section
-Add a testimonials/reviews section to the homepage with member quotes.
+**Features to add:**
+- Lightbox/full-screen modal view
+- Thumbnail navigation strip below main image
+- Keyboard navigation (arrow keys, Escape to close)
+- Touch swipe support on mobile (using existing embla-carousel)
 
 ---
 
-## Phase 5: Authentication and User Features
+### 4. Connect Footer Links
+Footer destination and experience links use `#` placeholders.
 
-### 5.1 Authentication Pages
-- Sign In page with email/password
-- Sign Up page with membership tier selection
-- Forgot Password flow
-
-### 5.2 User Profile
-- Profile page with avatar and details
-- Saved favorites list
-- Booking history (placeholder)
-- Membership tier display
-
-### 5.3 Favorites System
-- Heart button on venue cards
-- Save to localStorage initially
-- Favorites page to view saved venues
+**Implementation:**
+- Destinations (Monaco, Dubai, etc.) link to `/destination/{slug}`
+- Experiences (Nightclubs, Fine Dining, etc.) link to `/category/{slug}`
 
 ---
 
-## Phase 6: Booking and Contact
+### 5. Make Category Cards Clickable
+The CategoryCard component in CategoriesSection isn't linked to category pages.
 
-### 6.1 Reservation Request Modal
-Modal form with:
-- Date picker
-- Party size selector
-- Special requests textarea
-- Contact information
-- Submit with success toast notification
-
-### 6.2 Contact/Support Page
-- Contact form
-- FAQ accordion
-- 24/7 concierge messaging placeholder
-- Social links
+**Implementation:**
+- Add click handler or wrap in Link component
+- Navigate to `/category/{category-slug}`
 
 ---
 
-## File Structure
+### 6. Add Price Range Filter to Search
+The search page has destination, category, and rating filters but no price filter.
 
+**Implementation:**
+- Add price level selector ($ to $$$$)
+- Update `filterVenues()` to support price filtering
+- Display as button group matching existing filter UI
+
+---
+
+### 7. Add Sort Options to Search
+Search results need sorting capability.
+
+**Options:**
+- Rating (High to Low)
+- Price (Low to High / High to Low)
+- Name (A-Z)
+
+**Implementation:**
+- Add sort dropdown or button group
+- Sort results before rendering
+
+---
+
+### 8. Create Forgot Password Page
+The Sign In page links to `/forgot-password` which doesn't exist.
+
+**Implementation:**
+- Create simple form with email input
+- Show success message (placeholder for backend)
+- Link back to Sign In
+
+---
+
+### 9. Quick View Modal for Venue Cards
+Add a "quick peek" feature without navigating to full venue page.
+
+**Implementation:**
+- Add eye icon button on VenueCard hover
+- Open modal with key venue info (images, rating, description)
+- "View Full Details" button to navigate to venue page
+
+---
+
+## File Changes Summary
+
+| Action | File | Description |
+|--------|------|-------------|
+| Modify | `src/components/HeroSection.tsx` | Add navigation on search |
+| Create | `src/components/VenueCardSkeleton.tsx` | Skeleton loader component |
+| Create | `src/components/DestinationCardSkeleton.tsx` | Skeleton loader component |
+| Create | `src/components/VenueGalleryModal.tsx` | Full-screen lightbox |
+| Modify | `src/pages/Venue.tsx` | Integrate gallery modal |
+| Modify | `src/components/Footer.tsx` | Connect links to routes |
+| Modify | `src/components/CategoryCard.tsx` | Make clickable |
+| Modify | `src/components/CategoriesSection.tsx` | Pass link props |
+| Modify | `src/pages/Search.tsx` | Add price filter + sort |
+| Modify | `src/data/venues.ts` | Update filter function |
+| Create | `src/pages/ForgotPassword.tsx` | Password reset form |
+| Modify | `src/App.tsx` | Add forgot password route |
+| Create | `src/components/VenueQuickView.tsx` | Quick view modal |
+| Modify | `src/components/VenueCard.tsx` | Add quick view button |
+
+---
+
+## Technical Details
+
+### Skeleton Components Pattern
 ```text
-src/
-├── components/
-│   ├── ui/                    (existing)
-│   ├── layout/
-│   │   ├── Header.tsx         (update)
-│   │   ├── Footer.tsx         (existing)
-│   │   └── MobileNav.tsx      (new)
-│   ├── destinations/
-│   │   ├── DestinationCard.tsx
-│   │   ├── DestinationHero.tsx
-│   │   └── DestinationGrid.tsx
-│   ├── venues/
-│   │   ├── VenueCard.tsx
-│   │   ├── VenueGallery.tsx
-│   │   ├── VenueDetails.tsx
-│   │   └── VenueGrid.tsx
-│   ├── search/
-│   │   ├── SearchBar.tsx
-│   │   ├── SearchFilters.tsx
-│   │   └── SearchResults.tsx
-│   ├── booking/
-│   │   └── ReservationModal.tsx
-│   └── auth/
-│       ├── SignInForm.tsx
-│       └── SignUpForm.tsx
-├── pages/
-│   ├── Index.tsx              (existing)
-│   ├── Destination.tsx        (new)
-│   ├── Venue.tsx              (new)
-│   ├── Search.tsx             (new)
-│   ├── Category.tsx           (new)
-│   ├── SignIn.tsx             (new)
-│   ├── SignUp.tsx             (new)
-│   ├── Profile.tsx            (new)
-│   ├── Favorites.tsx          (new)
-│   └── Contact.tsx            (new)
-├── data/
-│   ├── types.ts               (new)
-│   ├── destinations.ts        (new)
-│   ├── venues.ts              (new)
-│   └── categories.ts          (new)
-├── hooks/
-│   ├── useDestinations.ts     (new)
-│   ├── useVenues.ts           (new)
-│   ├── useSearch.ts           (new)
-│   └── useFavorites.ts        (new)
-└── lib/
-    └── utils.ts               (existing)
+- Use Skeleton from ui/skeleton.tsx
+- Match exact dimensions of real components
+- Add custom gold-tinted background: bg-charcoal/50
+- Apply shimmer animation class from index.css
 ```
 
----
+### Gallery Modal Implementation
+```text
+- Use Dialog component for modal wrapper
+- Embed embla-carousel for swiping
+- Add keyboard event listeners for arrow keys
+- Thumbnail strip using horizontal scroll
+```
 
-## Routes to Add
-
-| Route | Page | Description |
-|-------|------|-------------|
-| `/destination/:slug` | Destination | Browse venues in a destination |
-| `/venue/:id` | Venue | Venue details and booking |
-| `/search` | Search | Search results with filters |
-| `/category/:slug` | Category | Venues by category |
-| `/sign-in` | SignIn | User sign in |
-| `/sign-up` | SignUp | User registration |
-| `/profile` | Profile | User profile and settings |
-| `/favorites` | Favorites | Saved venues |
-| `/contact` | Contact | Contact and FAQ |
-
----
-
-## Technical Implementation Notes
-
-- All data will be mock data initially (easily replaceable with API/Supabase later)
-- Use React Router for navigation with proper Link components
-- Implement responsive design throughout (mobile-first)
-- Maintain the luxury dark theme with gold accents consistently
-- Use React Query for data fetching patterns (ready for real backend)
-- LocalStorage for favorites and recent searches until backend is added
-- Form validation using react-hook-form and zod
-- Toast notifications for user feedback (already have sonner)
+### Search Enhancements
+```text
+- Price filter: array of selected price levels [1,2,3,4]
+- Sort: new URL param 'sort' with values rating|price-low|price-high|name
+- Update filterVenues to accept priceLevel array
+```
 
 ---
 
 ## Implementation Order
 
-1. Data types and mock data (foundation)
-2. Mobile navigation menu (quick win)
-3. Search functionality on homepage
-4. Destination detail page + routing
-5. Venue detail page
-6. Search results page with filters
-7. Category pages
-8. Favorites system (localStorage)
-9. Reservation request modal
-10. Auth pages (placeholder forms)
-11. User profile and favorites page
-12. Loading states and polish
+1. Hero section search navigation (quick fix)
+2. Footer link connections (quick fix)
+3. CategoryCard links (quick fix)
+4. Forgot Password page (new route)
+5. Price filter in search
+6. Sort options in search
+7. Skeleton components
+8. Gallery lightbox modal
+9. Quick view modal (optional enhancement)
+
+---
+
+## Estimated Complexity
+
+- **Quick fixes (1-4):** 4 files, minimal changes
+- **Search enhancements (5-6):** 2 files, moderate logic
+- **Skeleton states (7):** 2 new components
+- **Gallery modal (8):** 1 new component + integration
+- **Quick view (9):** 1 new component + VenueCard update
+
