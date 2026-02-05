@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+         sans: ['Questrial', 'sans-serif'],
+         serif: ['Cormorant Garamond', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -62,6 +62,9 @@ export default {
           light: "hsl(var(--charcoal-light))",
         },
         cream: "hsl(var(--cream))",
+         sage: "hsl(var(--sage))",
+         terracotta: "hsl(var(--terracotta))",
+         sand: "hsl(var(--sand))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

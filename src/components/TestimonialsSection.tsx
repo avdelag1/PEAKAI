@@ -7,14 +7,14 @@ const TestimonialsSection = () => {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-gold text-sm font-medium uppercase tracking-wider mb-4 block">
+           <span className="text-terracotta text-sm font-medium uppercase tracking-widest mb-4 block">
             Testimonials
           </span>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-6">
-            What Our <span className="text-gradient-gold">Members</span> Say
+           <h2 className="text-3xl md:text-4xl font-serif font-medium text-foreground mb-6">
+             What Our <span className="text-gold">Guests</span> Say
           </h2>
           <p className="text-muted-foreground text-lg">
-            Join thousands of satisfied members who trust Mercur for their luxury experiences
+             Join thousands of travelers who trust us for their Tulum experiences
           </p>
         </div>
 

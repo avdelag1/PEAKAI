@@ -12,14 +12,14 @@ const FeaturedVenuesSection = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div className="max-w-xl">
-            <span className="text-gold text-sm font-medium uppercase tracking-wider mb-4 block">
+             <span className="text-terracotta text-sm font-medium uppercase tracking-widest mb-4 block">
               Featured
             </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
-              Top <span className="text-gradient-gold">Venues</span>
+             <h2 className="text-3xl md:text-4xl font-serif font-medium text-foreground mb-4">
+               Top <span className="text-gold">Venues</span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Hand-picked exclusive experiences from our global network
+               Hand-picked exclusive experiences curated by locals
             </p>
           </div>
           

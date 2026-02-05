@@ -52,14 +52,14 @@ const CategoriesSection = () => {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-gold text-sm font-medium uppercase tracking-wider mb-4 block">
+           <span className="text-terracotta text-sm font-medium uppercase tracking-widest mb-4 block">
             Categories
           </span>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-6">
-            What We <span className="text-gradient-gold">Curate</span>
+           <h2 className="text-3xl md:text-4xl font-serif font-medium text-foreground mb-6">
+             What We <span className="text-gold">Curate</span>
           </h2>
           <p className="text-muted-foreground text-lg">
-            From exclusive nightlife to intimate dining experiences, we connect you with the finest venues and services worldwide.
+             From beach clubs to cenotes, we connect you with the best experiences Tulum has to offer.
           </p>
         </div>
 

@@ -12,8 +12,8 @@ const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <nav className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <span className="text-2xl font-serif font-bold text-gradient-gold">
-              Mercur
+             <span className="text-xl font-serif font-semibold tracking-wide text-foreground">
+               THE TULUM EXPERT
             </span>
           </Link>
 
