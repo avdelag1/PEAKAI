@@ -1,4 +1,4 @@
-import DestinationCard from "./DestinationCard";
+import { Link } from "react-router-dom";
 import monacoImg from "@/assets/destination-monaco.jpg";
 import dubaiImg from "@/assets/destination-dubai.jpg";
 import mykonosImg from "@/assets/destination-mykonos.jpg";
@@ -6,61 +6,61 @@ import ibizaImg from "@/assets/destination-ibiza.jpg";
 
 const destinations = [
   {
-    name: "Monaco",
-    country: "French Riviera",
+    name: "Tulum Centro",
+    slug: "monaco",
     image: monacoImg,
-    rating: 4.9,
     venues: 45,
-    featured: true,
   },
   {
-    name: "Dubai",
-    country: "UAE",
+    name: "Beach Zone",
+    slug: "dubai",
     image: dubaiImg,
-    rating: 4.8,
     venues: 120,
   },
   {
-    name: "Mykonos",
-    country: "Greece",
+    name: "Aldea Zama",
+    slug: "mykonos",
     image: mykonosImg,
-    rating: 4.7,
     venues: 35,
   },
   {
-    name: "Ibiza",
-    country: "Spain",
+    name: "La Veleta",
+    slug: "ibiza",
     image: ibizaImg,
-    rating: 4.8,
     venues: 80,
   },
 ];
 
 const DestinationsSection = () => {
   return (
-    <section id="destinations" className="py-24 bg-gradient-dark">
-      <div className="container mx-auto px-6">
+    <section className="py-6">
+      <div className="px-4">
         {/* Header */}
-        <div className="max-w-2xl mb-16">
-           <span className="text-terracotta text-sm font-medium uppercase tracking-widest mb-4 block">
-            Destinations
-          </span>
-           <h2 className="text-3xl md:text-4xl font-serif font-medium text-foreground mb-6">
-             Curated <span className="text-gold">Destinations</span>
+        <div className="mb-4">
+          <h2 className="text-xl font-serif font-semibold text-foreground">
+            Discover new places
           </h2>
-          <p className="text-muted-foreground text-lg">
-             Discover the best spots for unforgettable experiences in Tulum and beyond.
-          </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {destinations.map((destination, index) => (
-            <DestinationCard
+        {/* Horizontal Scroll */}
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
+          {destinations.map((destination) => (
+            <Link
               key={destination.name}
-              {...destination}
-              featured={index === 0}
-            />
+              to={`/destination/${destination.slug}`}
+              className="relative min-w-[140px] h-[180px] rounded-2xl overflow-hidden group"
+            >
+              <img
+                src={destination.image}
+                alt={destination.name}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-3 left-3 right-3">
+                <h3 className="text-white font-medium text-sm">{destination.name}</h3>
+                <p className="text-white/70 text-xs">{destination.venues} places</p>
+              </div>
+            </Link>
           ))}
         </div>
       </div>
