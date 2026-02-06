@@ -1,25 +1,23 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import DestinationsSection from "@/components/DestinationsSection";
+import CategoryTabs from "@/components/CategoryTabs";
 import FeaturedVenuesSection from "@/components/FeaturedVenuesSection";
-import CategoriesSection from "@/components/CategoriesSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import CTASection from "@/components/CTASection";
+import DestinationsSection from "@/components/DestinationsSection";
 import Footer from "@/components/Footer";
+import BottomNav from "@/components/BottomNav";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
       <Header />
       <main>
         <HeroSection />
-        <DestinationsSection />
+        <CategoryTabs />
         <FeaturedVenuesSection />
-        <CategoriesSection />
-        <TestimonialsSection />
-        <CTASection />
+        <DestinationsSection />
       </main>
       <Footer />
+      <BottomNav />
     </div>
   );
 };
