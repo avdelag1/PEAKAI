@@ -1,190 +1,158 @@
 
 
-# Mercur Concierge App - Completion Plan (Phase 2)
+# TULUM LOCAL - Mobile-First Redesign
 
 ## Overview
-The core functionality is in place. This phase focuses on completing missing features, improving navigation connections, adding polish with loading states, and enhancing the user experience for a production-ready app.
+Transform the current "THE TULUM EXPERT" website into "TULUM LOCAL" with a mobile-first design inspired by the provided reference images. The new design will feature a clean, card-based interface with a prominent sunset beach background, personalized greeting, and a mobile app-style navigation.
 
 ---
 
-## What's Already Built
-- All 10 pages (Index, Destination, Venue, Search, Category, Favorites, SignIn, SignUp, Profile, Contact)
-- Mobile navigation with Sheet component
-- 22 venues across 4 destinations with comprehensive mock data
-- Search with destination, category, and rating filters
-- Favorites system with localStorage persistence
-- Reservation modal with form validation
-- Testimonials section on homepage
-- VenueCard with favorites and pricing badges
+## Key Design Changes
+
+### Visual Style (From Reference Images)
+- **Clean white/cream background** with rounded card overlays
+- **Large hero image** covering upper portion with search overlay
+- **Personalized greeting** ("Hey, there! Tell us where you want to go")
+- **Pill-shaped category tabs** (Home, Experiences, Services)
+- **Rounded venue cards** with large images, heart favorites, ratings, and pricing
+- **Mobile bottom navigation bar** with icons (Search, Favorites, Bookings, Profile)
+- **Minimal header** - just logo and user avatar
+
+### Brand Update
+- Name: **TULUM LOCAL**
+- Background: Replace current hero with **Tulum sunset beach image**
+- Maintain the warm, earthy color palette already in place
 
 ---
 
-## Remaining Work
+## File Changes
 
-### 1. Fix Hero Section Search
-The hero search bar on the homepage doesn't navigate anywhere when users click "Explore".
+### 1. Replace Hero Background Image
+- Generate/add a new **Tulum sunset beach** image as `src/assets/hero-tulum-sunset.jpg`
+- This will be the prominent visual element covering the top portion of the home screen
 
-**Implementation:**
-- Connect the search input to navigate to `/search?q={query}`
-- Make popular search chips navigate to search with pre-filled query
-- Add form submission handling
+### 2. Update Header Component (`src/components/Header.tsx`)
+- Change brand name to **"TULUM LOCAL"**
+- Simplify to minimal header with logo on left, user avatar on right
+- Remove desktop navigation links (move to bottom nav for mobile-first design)
+- Add notification bell icon
 
----
+### 3. Redesign Hero Section (`src/components/HeroSection.tsx`)
+- Full-width sunset beach image covering ~60% of viewport height
+- Overlay with personalized greeting: "Hey, there! Tell us where you want to go"
+- Floating rounded search bar with icon: "Search places"
+- Remove the current scroll indicator
 
-### 2. Add Loading/Skeleton States
-Create luxury-themed skeleton loaders for a polished loading experience.
+### 4. Create Category Tabs Component
+- New component: `src/components/CategoryTabs.tsx`
+- Horizontal scrollable pill-shaped tabs (Home, Experiences, Services, Beach Clubs, etc.)
+- Positioned below the hero section
 
-**Components to add:**
-- `VenueCardSkeleton` - Animated placeholder matching VenueCard layout
-- `DestinationCardSkeleton` - Placeholder for destination grid
-- Skeleton states for Venue detail page during data load
+### 5. Update Venue Cards (`src/components/VenueCard.tsx`)
+- Increase image height ratio (4:5 instead of 4:3)
+- Larger rounded corners (2xl)
+- Heart button in top-right with white/filled styling
+- Show rating with star, guest capacity, and nightly price
+- Cleaner typography with less text
 
-**Styling:**
-- Use `bg-gold/5` for skeleton background (matching luxury theme)
-- Subtle shimmer animation with gold gradient
+### 6. Redesign Featured Section (`src/components/FeaturedVenuesSection.tsx`)
+- Section title: "The most relevant" (matching reference)
+- Horizontal scroll on mobile, grid on desktop
+- Remove the "View All" button, integrate into tabs
 
----
+### 7. Create Mobile Bottom Navigation
+- New component: `src/components/BottomNav.tsx`
+- Fixed to bottom of screen on mobile
+- Icons: Search (magnifier), Favorites (heart), Bookings (calendar), Messages/Profile (user)
+- Active state indicator
 
-### 3. Enhanced Image Gallery
-Improve the venue page image gallery with professional features.
+### 8. Simplify/Remove Sections
+- Remove or hide on mobile: TestimonialsSection, CTASection
+- Simplify DestinationsSection to "Discover new places" horizontal scroll
+- Remove CategoriesSection (replaced by tabs)
 
-**Features to add:**
-- Lightbox/full-screen modal view
-- Thumbnail navigation strip below main image
-- Keyboard navigation (arrow keys, Escape to close)
-- Touch swipe support on mobile (using existing embla-carousel)
+### 9. Update Index Page (`src/pages/Index.tsx`)
+- New layout order:
+  1. Minimal Header
+  2. Hero with sunset + greeting + search
+  3. Category Tabs
+  4. "The most relevant" venues
+  5. "Discover new places" destinations
+  6. Bottom Navigation (mobile)
+  7. Footer (desktop only)
 
----
+### 10. Update Global Styles (`src/index.css`)
+- Adjust card styling for more rounded corners
+- Update glass-card effect for search bar overlay
+- Ensure warm cream/beige background remains
 
-### 4. Connect Footer Links
-Footer destination and experience links use `#` placeholders.
-
-**Implementation:**
-- Destinations (Monaco, Dubai, etc.) link to `/destination/{slug}`
-- Experiences (Nightclubs, Fine Dining, etc.) link to `/category/{slug}`
-
----
-
-### 5. Make Category Cards Clickable
-The CategoryCard component in CategoriesSection isn't linked to category pages.
-
-**Implementation:**
-- Add click handler or wrap in Link component
-- Navigate to `/category/{category-slug}`
-
----
-
-### 6. Add Price Range Filter to Search
-The search page has destination, category, and rating filters but no price filter.
-
-**Implementation:**
-- Add price level selector ($ to $$$$)
-- Update `filterVenues()` to support price filtering
-- Display as button group matching existing filter UI
-
----
-
-### 7. Add Sort Options to Search
-Search results need sorting capability.
-
-**Options:**
-- Rating (High to Low)
-- Price (Low to High / High to Low)
-- Name (A-Z)
-
-**Implementation:**
-- Add sort dropdown or button group
-- Sort results before rendering
+### 11. Update Footer & Mobile Nav
+- `src/components/Footer.tsx`: Update brand name to "TULUM LOCAL"
+- `src/components/MobileNav.tsx`: Update brand name (though may be replaced by bottom nav)
 
 ---
 
-### 8. Create Forgot Password Page
-The Sign In page links to `/forgot-password` which doesn't exist.
+## Component Architecture
 
-**Implementation:**
-- Create simple form with email input
-- Show success message (placeholder for backend)
-- Link back to Sign In
-
----
-
-### 9. Quick View Modal for Venue Cards
-Add a "quick peek" feature without navigating to full venue page.
-
-**Implementation:**
-- Add eye icon button on VenueCard hover
-- Open modal with key venue info (images, rating, description)
-- "View Full Details" button to navigate to venue page
-
----
-
-## File Changes Summary
-
-| Action | File | Description |
-|--------|------|-------------|
-| Modify | `src/components/HeroSection.tsx` | Add navigation on search |
-| Create | `src/components/VenueCardSkeleton.tsx` | Skeleton loader component |
-| Create | `src/components/DestinationCardSkeleton.tsx` | Skeleton loader component |
-| Create | `src/components/VenueGalleryModal.tsx` | Full-screen lightbox |
-| Modify | `src/pages/Venue.tsx` | Integrate gallery modal |
-| Modify | `src/components/Footer.tsx` | Connect links to routes |
-| Modify | `src/components/CategoryCard.tsx` | Make clickable |
-| Modify | `src/components/CategoriesSection.tsx` | Pass link props |
-| Modify | `src/pages/Search.tsx` | Add price filter + sort |
-| Modify | `src/data/venues.ts` | Update filter function |
-| Create | `src/pages/ForgotPassword.tsx` | Password reset form |
-| Modify | `src/App.tsx` | Add forgot password route |
-| Create | `src/components/VenueQuickView.tsx` | Quick view modal |
-| Modify | `src/components/VenueCard.tsx` | Add quick view button |
+```text
+Index Page (Mobile-First Layout)
+├── Header (minimal: logo + avatar)
+├── HeroSection
+│   ├── Sunset Beach Background Image
+│   ├── Greeting Text Overlay
+│   └── Floating Search Bar
+├── CategoryTabs (horizontal scroll)
+├── FeaturedVenuesSection ("The most relevant")
+│   └── VenueCard (redesigned)
+├── DestinationsSection ("Discover new places")
+│   └── DestinationCard (horizontal scroll)
+├── Footer (hidden on mobile)
+└── BottomNav (fixed, mobile only)
+```
 
 ---
 
 ## Technical Details
 
-### Skeleton Components Pattern
-```text
-- Use Skeleton from ui/skeleton.tsx
-- Match exact dimensions of real components
-- Add custom gold-tinted background: bg-charcoal/50
-- Apply shimmer animation class from index.css
-```
+### Hero Section Redesign
+- Full-width image with aspect ratio ~16:10 on mobile
+- Gradient overlay: transparent to white at bottom
+- Greeting positioned at bottom of image area
+- Search bar: white rounded pill with shadow, positioned just below greeting
 
-### Gallery Modal Implementation
-```text
-- Use Dialog component for modal wrapper
-- Embed embla-carousel for swiping
-- Add keyboard event listeners for arrow keys
-- Thumbnail strip using horizontal scroll
-```
+### Bottom Navigation Implementation
+- Fixed position at bottom (`fixed bottom-0 left-0 right-0`)
+- White background with subtle top shadow
+- 4 icon buttons with labels
+- Hide on desktop (`md:hidden`)
+- Add padding to main content to account for nav height
 
-### Search Enhancements
-```text
-- Price filter: array of selected price levels [1,2,3,4]
-- Sort: new URL param 'sort' with values rating|price-low|price-high|name
-- Update filterVenues to accept priceLevel array
-```
+### Venue Card Updates
+- Border radius: `rounded-2xl`
+- Image: `aspect-[4/5]` with `rounded-t-2xl`
+- Heart: white circle background, positioned `top-4 right-4`
+- Content: title, rating with star, beds/guests info, price per night
+- Shadow: subtle drop shadow for card elevation
+
+### Category Tabs
+- Horizontal scroll container with hidden scrollbar
+- Pills: `rounded-full`, dark fill for active, outline for inactive
+- Gap between pills: 8px
+- Padding: horizontal 16px
 
 ---
 
 ## Implementation Order
 
-1. Hero section search navigation (quick fix)
-2. Footer link connections (quick fix)
-3. CategoryCard links (quick fix)
-4. Forgot Password page (new route)
-5. Price filter in search
-6. Sort options in search
-7. Skeleton components
-8. Gallery lightbox modal
-9. Quick view modal (optional enhancement)
-
----
-
-## Estimated Complexity
-
-- **Quick fixes (1-4):** 4 files, minimal changes
-- **Search enhancements (5-6):** 2 files, moderate logic
-- **Skeleton states (7):** 2 new components
-- **Gallery modal (8):** 1 new component + integration
-- **Quick view (9):** 1 new component + VenueCard update
+1. Generate Tulum sunset beach hero image
+2. Update Header with new brand name and minimal design
+3. Redesign HeroSection with new layout
+4. Create CategoryTabs component
+5. Update VenueCard styling
+6. Update FeaturedVenuesSection
+7. Create BottomNav component
+8. Update Index page layout
+9. Update Footer brand name
+10. Hide unnecessary sections on mobile
+11. Final polish and responsive adjustments
 
