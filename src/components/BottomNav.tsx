@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Heart, Calendar, User } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,11 +10,11 @@ const navItems = [
   { icon: User, label: "Profile", path: "/profile" },
 ];
 
-const BottomNav = () => {
+const BottomNav = forwardRef<HTMLElement>((_, ref) => {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border md:hidden">
+    <nav ref={ref} className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border md:hidden">
       <div className="flex items-center justify-around py-2 pb-safe">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
@@ -34,6 +35,8 @@ const BottomNav = () => {
       </div>
     </nav>
   );
-};
+});
+
+BottomNav.displayName = "BottomNav";
 
 export default BottomNav;

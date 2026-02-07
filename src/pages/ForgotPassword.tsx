@@ -1,35 +1,48 @@
- import { useState } from "react";
- import { Link } from "react-router-dom";
- import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
- import { useForm } from "react-hook-form";
- import { zodResolver } from "@hookform/resolvers/zod";
- import { z } from "zod";
- import Header from "@/components/Header";
- import Footer from "@/components/Footer";
- import { Button } from "@/components/ui/button";
- import { Input } from "@/components/ui/input";
- import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
- 
- const forgotPasswordSchema = z.object({
-   email: z.string().email("Please enter a valid email address"),
- });
- 
- type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>;
- 
- const ForgotPassword = () => {
-   const [submitted, setSubmitted] = useState(false);
-   
-   const form = useForm<ForgotPasswordForm>({
-     resolver: zodResolver(forgotPasswordSchema),
-     defaultValues: {
-       email: "",
-     },
-   });
- 
-   const onSubmit = (data: ForgotPasswordForm) => {
-     console.log("Password reset requested for:", data.email);
-     setSubmitted(true);
-   };
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { supabase } from "@/integrations/supabase/client";
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+});
+
+type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>;
+
+const ForgotPassword = () => {
+  const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const form = useForm<ForgotPasswordForm>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  const onSubmit = async (data: ForgotPasswordForm) => {
+    setIsLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setIsLoading(false);
+    
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    
+    setSubmitted(true);
+  };
  
    return (
      <div className="min-h-screen bg-background">
@@ -98,9 +111,9 @@
                        )}
                      />
  
-                     <Button type="submit" variant="gold" className="w-full">
-                       Send Reset Link
-                     </Button>
+                      <Button type="submit" variant="gold" className="w-full" disabled={isLoading}>
+                        {isLoading ? "Sending..." : "Send Reset Link"}
+                      </Button>
                    </form>
                  </Form>
                </div>
