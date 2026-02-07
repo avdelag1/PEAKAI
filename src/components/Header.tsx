@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { Bell, User } from "lucide-react";
 import { Button } from "./ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header = () => {
+  const { user } = useAuth();
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md">
       <div className="container mx-auto px-4 py-3">
@@ -17,7 +20,7 @@ const Header = () => {
             <Button variant="ghost" size="icon" className="text-foreground/70 hover:text-foreground">
               <Bell className="h-5 w-5" />
             </Button>
-            <Link to="/profile">
+            <Link to={user ? "/profile" : "/sign-in"}>
               <Button variant="ghost" size="icon" className="rounded-full bg-muted">
                 <User className="h-5 w-5 text-foreground/70" />
               </Button>

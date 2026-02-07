@@ -1,20 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Eye, EyeOff, ArrowLeft, Check, Crown, Star, Diamond } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 const signUpSchema = z.object({
-  fullName: z.string().min(2, "Name must be at least 2 characters"),
+  displayName: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   confirmPassword: z.string(),
@@ -25,50 +26,11 @@ const signUpSchema = z.object({
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
-const tiers = [
-  {
-    id: "silver",
-    name: "Silver",
-    price: "$199/mo",
-    icon: Star,
-    features: [
-      "Priority reservations",
-      "Exclusive venue access",
-      "24/7 concierge support",
-    ],
-  },
-  {
-    id: "gold",
-    name: "Gold",
-    price: "$499/mo",
-    icon: Crown,
-    popular: true,
-    features: [
-      "Everything in Silver",
-      "VIP table guarantees",
-      "Personal concierge",
-      "Event invitations",
-    ],
-  },
-  {
-    id: "platinum",
-    name: "Platinum",
-    price: "$999/mo",
-    icon: Diamond,
-    features: [
-      "Everything in Gold",
-      "Unlimited reservations",
-      "Private experiences",
-      "Global access",
-      "Yacht & jet bookings",
-    ],
-  },
-];
-
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedTier, setSelectedTier] = useState("gold");
   const [isLoading, setIsLoading] = useState(false);
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -81,107 +43,68 @@ const SignUp = () => {
   const onSubmit = async (data: SignUpFormData) => {
     setIsLoading(true);
     
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const { error } = await signUp(data.email, data.password, data.displayName);
     
-    toast.info("Sign up functionality", {
-      description: "This feature requires backend integration. Enable Lovable Cloud to add authentication.",
-    });
+    if (error) {
+      toast.error("Sign up failed", {
+        description: error.message,
+      });
+    } else {
+      toast.success("Account created!", {
+        description: "Please check your email to verify your account.",
+      });
+      navigate("/sign-in");
+    }
     
     setIsLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
       <Header />
       
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
+      <main className="pt-20 pb-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-md mx-auto">
             <Link 
               to="/" 
-              className="inline-flex items-center gap-2 text-gold hover:text-gold/80 mb-8 transition-colors"
+              className="inline-flex items-center gap-2 text-foreground hover:text-muted-foreground mb-6 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Home
+              Back
             </Link>
 
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-serif font-bold text-foreground mb-4">
-                Join <span className="text-gradient-gold">Mercur</span>
-              </h1>
-              <p className="text-muted-foreground text-lg">
-                Access the world's most exclusive venues and experiences
-              </p>
-            </div>
+            <div className="bg-card p-6 rounded-2xl border border-border">
+              <div className="text-center mb-6">
+                <h1 className="text-2xl font-serif font-semibold text-foreground mb-1">
+                  Create Account
+                </h1>
+                <p className="text-muted-foreground text-sm">
+                  Join Tulum Local to save your favorites
+                </p>
+              </div>
 
-            {/* Membership Tiers */}
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
-              {tiers.map((tier) => {
-                const Icon = tier.icon;
-                return (
-                  <button
-                    key={tier.id}
-                    onClick={() => setSelectedTier(tier.id)}
-                    className={cn(
-                      "relative p-6 rounded-2xl text-left transition-all duration-300",
-                      selectedTier === tier.id
-                        ? "glass-card border-gold ring-2 ring-gold"
-                        : "glass-card border-gold/20 hover:border-gold/40"
-                    )}
-                  >
-                    {tier.popular && (
-                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-background text-xs font-bold px-3 py-1 rounded-full">
-                        Most Popular
-                      </span>
-                    )}
-                    
-                    <Icon className={cn(
-                      "h-8 w-8 mb-4",
-                      selectedTier === tier.id ? "text-gold" : "text-muted-foreground"
-                    )} />
-                    
-                    <h3 className="font-serif font-semibold text-foreground text-xl mb-1">
-                      {tier.name}
-                    </h3>
-                    <p className="text-gold font-semibold text-2xl mb-4">{tier.price}</p>
-                    
-                    <ul className="space-y-2">
-                      {tier.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Check className="h-4 w-4 text-gold" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Sign Up Form */}
-            <div className="max-w-md mx-auto glass-card p-8 rounded-2xl">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="fullName" className="text-foreground">Full Name</Label>
+                  <Label htmlFor="displayName" className="text-foreground text-sm">Name</Label>
                   <Input
-                    id="fullName"
-                    variant="luxury"
-                    placeholder="John Doe"
-                    {...register("fullName")}
+                    id="displayName"
+                    placeholder="Your name"
+                    className="rounded-xl"
+                    {...register("displayName")}
                   />
-                  {errors.fullName && (
-                    <p className="text-sm text-destructive">{errors.fullName.message}</p>
+                  {errors.displayName && (
+                    <p className="text-sm text-destructive">{errors.displayName.message}</p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-foreground">Email</Label>
+                  <Label htmlFor="email" className="text-foreground text-sm">Email</Label>
                   <Input
                     id="email"
                     type="email"
-                    variant="luxury"
                     placeholder="your@email.com"
+                    className="rounded-xl"
                     {...register("email")}
                   />
                   {errors.email && (
@@ -190,13 +113,13 @@ const SignUp = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-foreground">Password</Label>
+                  <Label htmlFor="password" className="text-foreground text-sm">Password</Label>
                   <div className="relative">
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
-                      variant="luxury"
                       placeholder="••••••••"
+                      className="rounded-xl pr-10"
                       {...register("password")}
                     />
                     <button
@@ -213,12 +136,12 @@ const SignUp = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword" className="text-foreground">Confirm Password</Label>
+                  <Label htmlFor="confirmPassword" className="text-foreground text-sm">Confirm Password</Label>
                   <Input
                     id="confirmPassword"
                     type="password"
-                    variant="luxury"
                     placeholder="••••••••"
+                    className="rounded-xl"
                     {...register("confirmPassword")}
                   />
                   {errors.confirmPassword && (
@@ -228,18 +151,17 @@ const SignUp = () => {
 
                 <Button 
                   type="submit" 
-                  variant="gold" 
-                  className="w-full" 
+                  className="w-full rounded-xl bg-foreground text-background hover:bg-foreground/90" 
                   disabled={isLoading}
                 >
-                  {isLoading ? "Creating account..." : `Join as ${tiers.find(t => t.id === selectedTier)?.name} Member`}
+                  {isLoading ? "Creating account..." : "Create Account"}
                 </Button>
               </form>
 
               <div className="mt-6 text-center">
-                <p className="text-muted-foreground">
-                  Already a member?{" "}
-                  <Link to="/sign-in" className="text-gold hover:text-gold/80 font-medium">
+                <p className="text-muted-foreground text-sm">
+                  Already have an account?{" "}
+                  <Link to="/sign-in" className="text-foreground font-medium hover:underline">
                     Sign In
                   </Link>
                 </p>
@@ -250,6 +172,7 @@ const SignUp = () => {
       </main>
 
       <Footer />
+      <BottomNav />
     </div>
   );
 };
