@@ -1,8 +1,9 @@
+import { forwardRef } from "react";
 import { Link } from "react-router-dom";
 
-const Footer = () => {
+const Footer = forwardRef<HTMLElement>((_, ref) => {
   return (
-    <footer className="bg-card border-t border-border py-8 hidden md:block">
+    <footer ref={ref} className="bg-card border-t border-border py-8 hidden md:block">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <Link to="/" className="font-serif font-semibold text-foreground">
@@ -28,6 +29,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;
