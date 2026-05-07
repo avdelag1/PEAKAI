@@ -26,19 +26,19 @@ const HeroSection = () => {
       {/* Hero Image */}
       <div className="relative h-[55vh] min-h-[320px] max-h-[480px] overflow-hidden">
         <img
-          src={heroSunset}
-          alt="Tulum beach sunset"
+          src="/assets/hero-peak.png"
+          alt="PEAK Performance Brain"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
         
         {/* Greeting Overlay */}
         <div className="absolute bottom-8 left-0 right-0 px-6">
-          <h1 className="text-2xl md:text-3xl font-serif font-medium text-white drop-shadow-lg mb-2">
-            Hey, there!
+          <h1 className="text-3xl md:text-4xl font-serif font-medium text-white drop-shadow-lg mb-2">
+            Rewire Your Brain.
           </h1>
-          <p className="text-white/90 text-base drop-shadow-md">
-            Tell us where you want to go
+          <p className="text-gold text-lg drop-shadow-md font-medium">
+            Unlock P.E.A.K. performance today.
           </p>
         </div>
       </div>

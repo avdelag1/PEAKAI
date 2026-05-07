@@ -11,8 +11,8 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3">
         <nav className="flex items-center justify-between">
           <Link to="/" className="flex items-center">
-            <span className="text-lg font-serif font-semibold tracking-wide text-foreground">
-              TULUM LOCAL
+            <span className="text-xl font-serif font-bold tracking-widest text-foreground">
+              PHANTOM <span className="text-gold">PEAK</span>
             </span>
           </Link>
 
